@@ -60,4 +60,13 @@ describe('Routes', () => {
       });
     });
   });
+
+  describe('/advice/search', () => {
+    test('It can handle request', (done) => {
+      request(app).get('/advice/search').then((response) => {
+        expect(response.status).toStrictEqual(200);
+        done();
+      });
+    });
+  });
 });

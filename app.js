@@ -15,4 +15,8 @@ app.route('/advice').get(async (req, res) => {
   }
 });
 
+app.route('/advice/search').get((req, res) => {
+  res.status(200).send();
+});
+
 module.exports = app;
