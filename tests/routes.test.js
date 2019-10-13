@@ -89,5 +89,19 @@ describe('Routes', () => {
         done();
       });
     });
+
+    test('It can respond with filtered advices', (done) => {
+      const expectedAdvices = [
+        "Your smile could make someone's day, don't forget to wear it.",
+        "You have as many hours in a day as the people you admire most."
+      ];
+      
+      externalSearchResponse(expectedAdvices);
+
+      request(app).get('/advice/search/day').then((response) => {
+        expect(response.body).toStrictEqual(expectedAdvices);
+        done();
+      })
+    });
   });
 });

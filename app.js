@@ -18,8 +18,9 @@ app.route('/advice').get(async (req, res) => {
 app.route('/advice/search/:searchTerm').get(async (req, res) => {
   const searcTerm = req.params.searchTerm;
   const externalApiResponse = await axios.get(`https://api.adviceslip.com/advice/search/${searcTerm}`);
+  const advices = externalApiResponse.data.slips.map(slip => slip.advice);
 
-  res.status(200).send();  
+  res.json(advices);  
 });
 
 module.exports = app;
