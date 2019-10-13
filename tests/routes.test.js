@@ -30,6 +30,15 @@ describe('Routes', () => {
       });
     });
 
+    test('It calls external API', (done) => {
+      externalAdviceResponse('');
+
+      request(app).get('/advice').then((response) => {
+        expect(axios.get).toHaveBeenCalledWith('https://api.adviceslip.com/advice');
+        done();
+      });
+    });
+
     test('It can respond with an advice', (done) => {
       const expectedAdvice = 'Some people would be better off if they took their own advice.';
       
