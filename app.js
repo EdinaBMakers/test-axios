@@ -16,11 +16,15 @@ app.route('/advice').get(async (req, res) => {
 });
 
 app.route('/advice/search/:searchTerm').get(async (req, res) => {
-  const searcTerm = req.params.searchTerm;
-  const externalApiResponse = await axios.get(`https://api.adviceslip.com/advice/search/${searcTerm}`);
-  const advices = externalApiResponse.data.slips.map(slip => slip.advice);
-
-  res.json(advices);  
+  try {
+    const searcTerm = req.params.searchTerm;
+    const externalApiResponse = await axios.get(`https://api.adviceslip.com/advice/search/${searcTerm}`);
+    const advices = externalApiResponse.data.slips.map(slip => slip.advice);
+  
+    res.json(advices); 
+  } catch (error) {
+    res.status(500).json(error);
+  }
 });
 
 module.exports = app;

@@ -103,5 +103,15 @@ describe('Routes', () => {
         done();
       })
     });
+
+    test('It can handle external api error', (done) => {
+      externalApiError('External API error');
+
+      request(app).get('/advice/search/day').then((response) => {
+        expect(response.status).toStrictEqual(500);
+        expect(response.body).toStrictEqual('External API error');
+        done();
+      });
+    });
   });
 });
