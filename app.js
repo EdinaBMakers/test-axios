@@ -15,8 +15,11 @@ app.route('/advice').get(async (req, res) => {
   }
 });
 
-app.route('/advice/search').get((req, res) => {
-  res.status(200).send();
+app.route('/advice/search/:searchTerm').get(async (req, res) => {
+  const searcTerm = req.params.searchTerm;
+  const externalApiResponse = await axios.get(`https://api.adviceslip.com/advice/search/${searcTerm}`);
+
+  res.status(200).send();  
 });
 
 module.exports = app;

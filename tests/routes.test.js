@@ -13,6 +13,16 @@ function externalAdviceResponse(expectedAdvice) {
   });
 }
 
+function externalSearchResponse(expectedAdvices) {
+  axios.get.mockImplementation(() => {
+    return Promise.resolve({
+      data: {slips:
+        expectedAdvices.map(a => {return {advice: a}})
+      }
+    })
+  })
+}
+
 function externalApiError(error) {
   axios.get.mockImplementation(() => {
     return Promise.reject(error);
@@ -63,8 +73,19 @@ describe('Routes', () => {
 
   describe('/advice/search', () => {
     test('It can handle request', (done) => {
-      request(app).get('/advice/search').then((response) => {
+      externalSearchResponse([])
+
+      request(app).get('/advice/search/day').then((response) => {
         expect(response.status).toStrictEqual(200);
+        done();
+      });
+    });
+
+    test('It calls external API', (done) => {
+      externalSearchResponse([]);
+
+      request(app).get('/advice/search/day').then((response) => {
+        expect(axios.get).toHaveBeenCalledWith('https://api.adviceslip.com/advice/search/day');
         done();
       });
     });
